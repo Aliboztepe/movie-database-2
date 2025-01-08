@@ -1,25 +1,55 @@
 <template>
-  <div>
-    <SearchComponent @search="fetchMovies" />
-    <div class="flex justify-between mt-4">
-      <select v-model="selectedSort" @change="fetchMovies" class="p-2 border rounded-md">
-        <option value="popularity.desc">Popular</option>
-        <option value="release_date.desc">Newest</option>
-        <option value="vote_average.desc">Top Rated</option>
-      </select>
+  <div class="p-6">
+    <div class="mb-6">
+      <SearchComponent @search="fetchMovies" />
+    </div>
+    <div class="bg-white p-4 rounded-lg shadow-md mb-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label for="genre" class="block text-sm font-medium text-gray-700">Genre</label>
+          <select 
+            v-model="selectedGenre" 
+            id="genre" 
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+            <option value="">All Genres</option>
+            <option value="28">Action</option>
+            <option value="35">Comedy</option>
+            <option value="18">Drama</option>
+          </select>
+        </div>
 
-      <select v-model="selectedGenre" @change="fetchMovies" class="p-2 border rounded-md">
-        <option value="">All Genres</option>
-        <option value="28">Action</option>
-        <option value="35">Comedy</option>
-        <option value="18">Drama</option>
-      </select>
+        <div>
+          <label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>
+          <select 
+            v-model="selectedRating" 
+            id="rating" 
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+            <option value="">All Ratings</option>
+            <option value="7">Above 7</option>
+            <option value="8">Above 8</option>
+          </select>
+        </div>
 
-      <select v-model="selectedRating" @change="fetchMovies" class="p-2 border rounded-md">
-        <option value="">All Ratings</option>
-        <option value="7">Above 7</option>
-        <option value="8">Above 8</option>
-      </select>
+        <div>
+          <label for="sort" class="block text-sm font-medium text-gray-700">Sort By</label>
+          <select 
+            v-model="selectedSort" 
+            id="sort" 
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+            <option value="popularity.desc">Popularity</option>
+            <option value="release_date.desc">Newest</option>
+            <option value="vote_average.desc">Top Rated</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mt-4 text-right">
+        <button 
+          @click="fetchMovies" 
+          class="px-4 py-2 bg-blue-600 text-white rounded-md shadow-sm hover:bg-blue-700 focus:outline-none">
+          Apply Filters
+        </button>
+      </div>
     </div>
 
     <PopularMoviesSection :items="movies" />
@@ -27,21 +57,21 @@
 </template>
 
 <script>
-import SearchComponent from '@/components/SearchComponent.vue';
 import PopularMoviesSection from '@/components/PopularMoviesSection.vue';
+import SearchComponent from '@/components/SearchComponent.vue';
 
 export default {
   name: 'MoviesView',
   components: {
-    SearchComponent,
     PopularMoviesSection,
+    SearchComponent,
   },
   data() {
     return {
       movies: [],
       selectedSort: 'popularity.desc',
       selectedGenre: '',
-      selectedRating: ''
+      selectedRating: '',
     };
   },
   mounted() {
@@ -69,11 +99,12 @@ export default {
           this.movies = data.results;
         } else {
           console.error('No results found.');
+          this.movies = [];
         }
       } catch (error) {
         console.error('Error fetching movies:', error);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>

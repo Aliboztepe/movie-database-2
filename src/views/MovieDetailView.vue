@@ -1,25 +1,42 @@
 <template>
-    <div class="p-4">
-      <div class="flex">
-        <img :src="imageUrl + movie.poster_path" class="w-1/3 rounded-lg shadow-md" />
-        <div class="ml-4">
-          <h2 class="text-3xl font-bold">{{ movie.title }}</h2>
-          <p class="text-lg text-gray-700">User Score: {{ movie.vote_average * 10 }}%</p>
-          <p class="mt-2">{{ movie.overview }}</p>
+  <div class="p-4 relative">
+    <div 
+      class="absolute inset-0 bg-cover bg-center opacity-10" 
+      :style="{ backgroundImage: `url(${imageUrl + movie.poster_path})` }">
+    </div>
+    <div class="relative z-10">
+      <div class="flex flex-wrap md:flex-nowrap items-center min-h-[500px]">
+        <img :src="imageUrl + movie.poster_path" class="w-full md:w-1/3 rounded-lg shadow-md" />
+        <div class="ml-0 md:ml-12 mt-4 md:mt-0">
+          <h2 class="text-4xl font-bold">{{ movie.title }}</h2>
+          <p class="text-lg text-gray-700 mt-2">{{ movie.release_date }}</p>
+          <div class="flex items-center mt-4">
+            <div class="relative flex items-center justify-center w-16 h-16 rounded-full bg-gray-900">
+              <div
+                class="absolute inset-0 rounded-full"
+                :style="{ background: `conic-gradient(#22c55e ${movie.vote_average * 10 * 3.6}deg, #374151 0deg)` }"
+              ></div>
+              <div class="flex items-center justify-center w-12 h-12 rounded-full bg-gray-900 z-10">
+                <span class="text-white font-bold">{{ Math.round(movie.vote_average * 10) }}%</span>
+              </div>
+            </div>
+            <span class="ml-4 text-lg font-semibold">User Score</span>
+          </div>
+          <p class="mt-4">{{ movie.overview }}</p>
         </div>
       </div>
-      <h3 class="text-2xl font-semibold mt-4">Cast</h3>
-      <ul class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-5 mt-2">
-        <li v-for="actor in cast" :key="actor.id" class="text-center">
-          <div class="flex flex-col items-center">
-            <img :src="imageUrl + actor.profile_path" class="w-24 h-36 rounded mb-2" />
-            <p class="mt-1 text-sm font-semibold">{{ actor.name }}</p>
-          </div>
-        </li>
-      </ul>
     </div>
+
+    <h3 class="text-2xl font-semibold mt-8">Top Billed Cast</h3>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mt-4">
+      <div v-for="actor in cast" :key="actor.id" class="text-center">
+        <img :src="imageUrl + actor.profile_path" class="w-full h-48 object-cover rounded-lg shadow-md" />
+        <p class="mt-2 font-semibold">{{ actor.name }}</p>
+      </div>
+    </div>
+  </div>
 </template>
-  
+
 <script>
   export default {
     name: 'MovieDetailView',
@@ -48,7 +65,6 @@
     },
   };
 </script>
-  
+
 <style scoped>
 </style>
-  

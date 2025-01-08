@@ -15,7 +15,7 @@
             @load="onImageLoad"
             alt="movie poster"
           />
-          <button @click.stop="toggleFavorite(item)" class="absolute top-2 right-2" aria-label="Toggle favorite for {{ item.title }}">
+          <button @click.stop.prevent="toggleFavorite(item)" class="absolute top-2 right-2" aria-label="Toggle favorite for {{ item.title }}">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" :class="{ 'text-yellow-500': isFavorite(item) }" viewBox="0 0 20 20">
               <path d="M10 15l-5.878 3.09 1.121-6.49L.243 6.91l6.591-.961L10 0l2.166 5.949 6.591.961-4.999 4.7 1.121 6.49z"/>
             </svg>
